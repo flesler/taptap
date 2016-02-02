@@ -19,7 +19,7 @@ var tap = {
 	setImage: function(btn, img) {
 		btn.innerHTML = '';
 		if (img) {
-			btn.img = tap.dom('img', {src:'/img/'+img+'.svg'});
+			btn.img = tap.dom('img', {src:'../img/'+img+'.svg'});
 			btn.area.appendChild(btn.img);
 		} else {
 			btn.img = null;
@@ -84,7 +84,7 @@ var tap = {
 		var audio = tap._audios[name];
 		if (!audio) {
 			audio = tap._audios[name] = document.createElement('audio');
-			audio.src = '/snd/'+name+'.mp3';
+			audio.src = '../snd/'+name+'.mp3';
 			audio.preload = true;
 			tap.root.appendChild(audio);
 		}
