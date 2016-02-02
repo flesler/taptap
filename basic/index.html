@@ -12,39 +12,37 @@
 
 		<link rel="help" href="https://github.com/flesler/taptap/" />
 		<link rel="author" href="https://github.com/flesler" />
-		<link rel="license" href="https://raw.githubusercontent.com/flesler/taptap/gh-pages/LICENSE" />
+		<link rel="license" href="/LICENSE" />
 
-		<link rel="icon" href="../favicon.ico" type="image/ico" sizes="16x16">
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="apple-touch-icon" href="../favicon.ico">
+		<link rel="icon" href="/favicon.ico" type="image/ico" sizes="16x16">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/favicon.ico">
     <meta name="apple-mobile-web-app-title" content="TapTap">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-		<link rel="stylesheet" href="../base/style.css" />
+		<link rel="stylesheet" href="/base/style.css" />
 	</head>
 	<body>
-		<script type="text/javascript" src="../base/taptap.js"></script>
+		<script type="text/javascript" src="/base/taptap.js"></script>
 		<script type="text/javascript">
 		var tap;// REMOVE
 		tap.setup([{}, {img:'ham'}, {}], function(btn) {
 			if (btn.img) {
 				tap.success();
-				tap.play('cheer', 'cheer5');
+				tap.play('cheer', 'win2');
 				var curr = tap.buttons.indexOf(btn);
 				do {
 					tap.randomize();
 				} while (tap.buttons.indexOf(btn) === curr);
 			} else {
-				tap.play('tone5', 'fail3', 'fail2');
+				tap.play('tone5');
 				tap.fail();
 			}
 		});
 
 		tap.preload('tone5');
-		tap.preload('fail2');
-		tap.preload('fail3');
 		tap.preload('cheer');
-		tap.preload('cheer5');
+		tap.preload('win2');
 		</script>
 	</body>
 </html>

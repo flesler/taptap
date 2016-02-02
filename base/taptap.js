@@ -97,6 +97,4 @@ var tap = {
 		audio.currentTime = 0;
 		audio.play();
 	}
-
-
 };
