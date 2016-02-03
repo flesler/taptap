@@ -1,5 +1,24 @@
 var tap = {
+
+	//- General utils
+
+	copy: function(dest) {
+		dest = dest || {};
+		for (var i = 1; i < arguments.length; i++) {
+			var src = arguments[i];
+			for (var key in src) {
+				dest[key] = src[key];
+			}
+		}
+		return dest;
+	},
+
+	//- DOM
+
 	root: document.body,
+	game: location.pathname.slice(1,-1),
+
+	$: function(id) { return document.getElementById(id); },
 
 	dom: function(tag, attrs, children) {
 		var elem = document.createElement(tag);
@@ -16,14 +35,21 @@ var tap = {
 		return elem;
 	},
 
+	image: function(name, attrs) {
+		return tap.dom('img', tap.copy({src:'/img/'+name+'.svg'}, attrs));
+	},
+
+	//- Buttons
+
 	setImage: function(btn, img) {
 		btn.innerHTML = '';
 		if (img) {
-			btn.img = tap.dom('img', {src:'../img/'+img+'.svg'});
-			btn.area.appendChild(btn.img);
+			btn.img = tap.image(img);
 		} else {
 			btn.img = null;
 		}
+		btn.wrap = tap.dom('div', {'class':'wrap'}, [btn.img]);
+		btn.area.appendChild(btn.wrap);
 	},
 
 	setup:function(btns, handler) {
@@ -55,46 +81,75 @@ var tap = {
 		});
 	},
 
-	feature: function(name) {
-		tap.buttons.forEach(function(btn) {
-			btn.area.className += ' ' + name;
-		});
-	},
+	//- Animations
 
-	state: function(name) {
-		tap.root.className = '';
+	animate: function(elem, animation) {
+		elem.classList.remove(animation);
 		setTimeout(function() {
-			tap.root.className = name;
+			elem.classList.add(animation);
 		},1);
 	},
 
 	success: function() {
-		tap.state('success');
+		tap.animate(tap.root, 'success');
+		tap.score(true);
 	},
 
 	fail: function() {
-		tap.state('fail');
+		tap.animate(tap.root, 'fail');
+		tap.score(false);
 	},
 
-	//- Sound
+	//- Audio
 
-	_audios:{},
+	aliases: {
+		success:['cheer', 'win2'],
+		fail:['tone5']
+	},
 
-	preload: function(name) {
-		var audio = tap._audios[name];
+	_getAudio: function(file) {
+		var id = 'snd-'+file;
+		var audio = tap.$(id);
 		if (!audio) {
-			audio = tap._audios[name] = document.createElement('audio');
-			audio.src = '../snd/'+name+'.mp3';
-			audio.preload = true;
+			audio = tap.dom('audio', {
+				id: id,
+				src: '/snd/'+file+'.mp3',
+				preload: true
+			});
 			tap.root.appendChild(audio);
 		}
 		return audio;
 	},
 
-	play: function(name/*, name2, ...*/) {
-		name = tap.pick(arguments);
-		var audio = tap.preload(name);
+	preload: function(name) {
+		var files = tap.aliases[name] || [name];
+		files.forEach(tap._getAudio);
+	},
+
+	play: function(name) {
+		var file = tap.pick(tap.aliases[name] || [name]);
+		var audio = tap._getAudio(file);
 		audio.currentTime = 0;
 		audio.play();
+	},
+
+	//- Score
+
+	won:0,
+	played:0,
+
+	score: function(won) {
+		if (won) tap.won++;
+		tap.played++;
+		// TODO: Change difficulty
+		// TODO: Store in localStorage by game name
 	}
 };
+
+//- Common UI generated with code
+
+tap.root.appendChild(
+	tap.dom('a',{'class':'home', href:'/'}, [
+		tap.image('home', {width:50, height:50})
+	])
+);

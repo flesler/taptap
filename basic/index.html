@@ -26,24 +26,23 @@
 	<body>
 		<script type="text/javascript" src="/base/taptap.js"></script>
 		<script type="text/javascript">
-		var tap;// REMOVE
+		/* global tap */
 		tap.setup([{}, {img:'ham'}, {}], function(btn) {
 			if (btn.img) {
 				tap.success();
-				tap.play('cheer', 'win2');
+				tap.play('success');
+
 				var curr = tap.buttons.indexOf(btn);
-				do {
-					tap.randomize();
+				do { tap.randomize();
 				} while (tap.buttons.indexOf(btn) === curr);
 			} else {
-				tap.play('tone5');
 				tap.fail();
+				tap.play('fail');
 			}
 		});
 
-		tap.preload('tone5');
-		tap.preload('cheer');
-		tap.preload('win2');
+		tap.preload('success');
+		tap.preload('fail');
 		</script>
 	</body>
 </html>

@@ -22,20 +22,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 		<link rel="stylesheet" href="/base/style.css" />
-		<style type="text/css">
-		.btn { width:50%; }
-		</style>
 	</head>
 	<body>
-		<div class="btn">
-			<div class="wrap">
-				<a href="/basic/">Basic</a>
-			</div>
-		</div>
-		<div class="btn">
-			<div class="wrap">
-				<a href="/pad/">Pad</a>
-			</div>
-		</div>
+		<script type="text/javascript" src="/base/taptap.js"></script>
+		<script type="text/javascript">
+		/* global tap */
+		var buttons = [
+			{img:'cat', snd:'cat'},
+			{img:'bird4', snd:'bird'},
+		];
+
+		tap.aliases.cat = ['cat', 'cat2', 'cat3'];
+		tap.aliases.bird = ['bird', 'bird3', 'bird4'];
+
+		tap.setup(buttons, function(btn) {
+			tap.play(btn.snd);
+			tap.animate(btn.wrap, 'beat');
+		});
+
+		buttons.forEach(function(btn) {
+			tap.preload(btn.snd);
+		});
+		</script>
 	</body>
 </html>
