@@ -23,30 +23,52 @@
 
 		<link rel="stylesheet" href="/base/style.css" />
 		<style type="text/css">
-		.btn { width:33%; }
+		.btn {
+			display: none;
+			border:none;
+		}
+		.btn.shown {
+			display: block;
+		}
 		</style>
 	</head>
 	<body>
-		<div class="btn">
-			<a href="/basic/">
-				<div class="wrap">
-					<span>Basic</span>
-				</div>
-			</a>
-		</div>
-		<div class="btn" style="left:33%">
-			<a href="/reflex/">
-				<div class="wrap">
-					<span>Reflex</span>
-				</div>
-			</a>
-		</div>
-		<div class="btn" style="left:66%">
-			<a href="/pad/">
-				<div class="wrap">
-					<span>Pad</span>
-				</div>
-			</a>
-		</div>
+		<script type="text/javascript" src="/base/taptap.js"></script>
+		<script type="text/javascript">
+		/* global tap */
+		var winner = {img:'ham'}, locked, tid;
+
+		tap.setup([winner, {}, {}], function(btn) {
+			if (locked) return;
+			tap.success();
+			tap.play('success');
+			clearTimeout(tid);
+			locked = true;
+			setTimeout(hide, 1.5e3);
+		});
+
+		tap.preload('success');
+
+		schedule();
+
+		function hide() {
+			locked = false;
+			winner.area.classList.remove('shown');
+			tap.randomize();
+			schedule();
+		}
+
+		function show() {
+			winner.area.classList.add('shown');
+			tap.animate(winner.area, 'beat');
+			var hideDelay = Math.random() * 1.5e3 + 1e3;
+			tid = setTimeout(hide, hideDelay);
+		}
+
+		function schedule() {
+			var showDelay = Math.random() * 2e3 + 2e3;
+			setTimeout(show, showDelay);
+		}
+		</script>
 	</body>
 </html>
