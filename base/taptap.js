@@ -26,8 +26,15 @@ var tap = {
 			children = attrs;
 			attrs = {};
 		}
-		for (var key in attrs) {
-			elem.setAttribute(key, attrs[key]);
+		for (var attr in attrs) {
+			var val = attrs[attr];
+			if (typeof val === 'object') {
+				for (var key in val) {
+					elem[attr][key] = val[key];
+				}
+			} else {
+				elem.setAttribute(attr, val);
+			}
 		}
 		(children||[]).forEach(function(child) {
 			if (child) elem.appendChild(child);
@@ -53,10 +60,8 @@ var tap = {
 	},
 
 	setup:function(btns, handler) {
-		var width = (100 / btns.length).toFixed(2) + '%';
-
-		btns.forEach(function(btn) {
-			btn.area = tap.dom('div', {'class':'btn', style:'width:'+width});
+		btns.forEach(function(btn, i) {
+			btn.area = tap.dom('div', {'class':'btn'});
 			tap.setImage(btn, btn.img);
 
 			btn.area.onclick = function() {
@@ -66,6 +71,17 @@ var tap = {
 
 		tap.buttons = btns;
 		tap.randomize();
+	},
+
+	arrangeButtons: function() {
+		var btns = tap.buttons;
+		var width = (100 / btns.length);
+		btns.forEach(function(btn, i) {
+			tap.copy(btn.area.style, {
+				width:width.toFixed(2)+'%',
+				left:(i * width).toFixed(2)+'%'
+			});
+		});
 	},
 
 	pick: function(arr) {
@@ -79,6 +95,7 @@ var tap = {
 		}).forEach(function(btn) {
 			tap.root.appendChild(btn.area);
 		});
+		tap.arrangeButtons();
 	},
 
 	//- Animations
