@@ -153,3 +153,8 @@ tap.root.appendChild(
 		tap.image('home', {width:50, height:50})
 	])
 );
+
+// Hide topbar
+['load', 'orientationchange', 'resize'].forEach(function(event) {
+	window.addEventListener(event, function() { scrollTo(0, 1); });
+});
