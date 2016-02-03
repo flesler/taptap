@@ -31,6 +31,7 @@
 			if (btn.img) {
 				tap.success();
 				tap.play('success');
+				tap.animate(btn.wrap, 'beat');
 
 				var curr = tap.buttons.indexOf(btn);
 				do { tap.randomize();

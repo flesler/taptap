@@ -1,6 +1,6 @@
 html, body {
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
 }
 
@@ -24,7 +24,7 @@ body {
 .home {
 	position: absolute;
 	z-index: 10;
-	top:5px;
+	bottom:5px;
 	left:5px;
 }
 
@@ -60,6 +60,10 @@ body {
 		}
 
 /* Animations */
+
+.loop {
+	animation-iteration-count: infinite;
+}
 
 @keyframes rotate {
 	0% { transform:rotate(0deg); }
