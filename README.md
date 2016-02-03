@@ -2,6 +2,10 @@
 
 A touch game for dogs and cats
 
+## Demo
+
+http://taptap.flesler.com/
+
 ## Game Ideas
 
 - [x] Only one slot with image at the time
