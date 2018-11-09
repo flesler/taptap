@@ -104,15 +104,17 @@ var tap = {
 		elem.classList.remove(animation);
 		setTimeout(function() {
 			elem.classList.add(animation);
-		},1);
+		}, 1);
 	},
 
 	success: function() {
+		tap.root.classList.remove('fail');
 		tap.animate(tap.root, 'success');
 		tap.score(true);
 	},
 
 	fail: function() {
+		tap.root.classList.remove('success');
 		tap.animate(tap.root, 'fail');
 		tap.score(false);
 	},
