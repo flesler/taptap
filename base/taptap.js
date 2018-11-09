@@ -177,3 +177,18 @@ tap.root.appendChild(
 ['load', 'orientationchange', 'resize'].forEach(function(event) {
 	window.addEventListener(event, function() { scrollTo(0, 1); });
 });
+
+tap.root.onclick = function() {
+	tap.root.onclick = null
+	var elem = document.documentElement
+	// Force fullscreen
+	if (elem.requestFullscreen) {
+		elem.requestFullscreen()
+	} else if (elem.msRequestFullscreen) {
+		elem.msRequestFullscreen()
+	} else if (elem.mozRequestFullScreen) {
+		elem.mozRequestFullScreen()
+	} else if (elem.webkitRequestFullscreen) {
+		elem.webkitRequestFullscreen()
+	}
+}
