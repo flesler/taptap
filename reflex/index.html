@@ -37,6 +37,8 @@
 		<script type="text/javascript">
 		/* global tap */
 		var winner = {img:'ham'}, locked, tid;
+		var lostDelay = 5000
+		var changeRatio = 0.05
 
 		tap.setup([winner, {}, {}], function(btn) {
 			if (locked) return;
@@ -44,7 +46,8 @@
 			tap.play('success');
 			clearTimeout(tid);
 			locked = true;
-			setTimeout(hide, 1.5e3);
+			lostDelay -= lostDelay * changeRatio
+			timeout(hide, 1500);
 		});
 
 		tap.preload('success');
@@ -58,16 +61,24 @@
 			schedule();
 		}
 
+		function lost() {
+			lostDelay += lostDelay * changeRatio
+			hide()
+		}
+
 		function show() {
 			winner.area.classList.add('shown');
 			tap.animate(winner.area, 'beat');
-			var hideDelay = Math.random() * 1.5e3 + 1e3;
-			tid = setTimeout(hide, hideDelay);
+			tid = timeout(lost, lostDelay);
 		}
 
 		function schedule() {
-			var showDelay = Math.random() * 2e3 + 2e3;
-			setTimeout(show, showDelay);
+			var showDelay = Math.random() * 2000 + 2000;
+			timeout(show, showDelay);
+		}
+
+		function timeout(cb, delay) {
+			return setTimeout(cb, Math.round(delay))
 		}
 		</script>
 	</body>
